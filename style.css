@@ -12,6 +12,7 @@ html, body, #map {
 
 .infobox .infobox-title {
     text-align: left;
+    margin-top: 1px;
     margin-bottom: 5px;
     font-weight: bold;
     font-size: 90%;
