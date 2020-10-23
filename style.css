@@ -10,7 +10,7 @@ html, body, #map {
 
 /* info for visualizations */
 
-.info {
+/* .info {
     padding: 6px 8px;
     font: 14px/16px Arial, Helvetica, sans-serif;
     background: white;
@@ -21,29 +21,39 @@ html, body, #map {
 .info h4 {
     margin: 0 0 5px;
     color: #777;
-}
+} */
 
 /* infobox */
 
-.infobox .infobox-title {
-    text-align: left;
+/* .infobox .infobox-title { */
+    /* text-align: left;
     margin-top: 1px;
     margin-bottom: 5px;
     font-weight: bold;
-    font-size: 90%;
-    }
+    font-size: 90%; */
+    /* position: absolute; 
+    z-index:9999; 
+    border:2px solid grey; 
+    width: 450px; 
+    background-color:rgba(255, 255, 255, 0.8);
+    border-radius:6px; 
+    padding: 2px; 
+    font-size:14px; 
+    right: 20px; 
+    bottom: 20px */
+    /* } */
 
 /* legend */
 
 .maplegend .legend-title {
     text-align: left;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     font-weight: bold;
     font-size: 90%;
     }
   .maplegend .legend-scale ul {
     margin: 0;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     padding: 0;
     float: left;
     list-style: none;
@@ -53,15 +63,15 @@ html, body, #map {
     list-style: none;
     margin-left: 0;
     line-height: 18px;
-    margin-bottom: 2px;
+    /* margin-bottom: 2px; */
     }
   .maplegend ul.legend-labels li span {
     display: block;
     float: left;
     height: 16px;
-    width: 30px;
+    width: 40px;
     margin-right: 5px;
-    margin-left: 0;
+    margin-left: 2;
     border: 1px solid #999;
     }
   .maplegend .legend-source {
@@ -72,3 +82,13 @@ html, body, #map {
   .maplegend a {
     color: #777;
     }
+
+hr { 
+    color:#777;
+    display: block;
+    padding: 0 !important;
+    margin: 2px !important;
+    border-style: inset;
+    border-width: 1px;
+
+} 
