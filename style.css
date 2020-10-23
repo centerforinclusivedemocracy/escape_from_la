@@ -83,6 +83,8 @@ html, body, #map {
     color: #777;
     }
 
+/* horizonal line break */
+
 hr { 
     color:#777;
     display: block;
@@ -92,3 +94,19 @@ hr {
     border-width: 1px;
 
 } 
+
+/* leaflet layer control */
+
+.leaflet-control-layers-toggle:after{ 
+    content:"your text"; 
+    color:#000 ;
+}
+.leaflet-control-layers-toggle{ 
+    width:auto;
+    background-position:3px 50% ;
+    padding:3px;
+    padding-left:36px;
+    text-decoration:none;
+    line-height:36px;
+
+}

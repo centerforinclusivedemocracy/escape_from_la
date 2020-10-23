@@ -49,6 +49,7 @@
 <!-- Call the Leaflet JavaScript functions -->
 
 <script type="text/javascript" src="la_precincts_test.geojson"></script>
+<script type="text/javascript" src="vote_centers_test.geojson"></script>
 <script type="text/javascript">  
 
     var map = L.map(
@@ -158,22 +159,19 @@ var polygons = L.geoJson(la, {
   '<br><b>Total Registered Voters: </b>'+layer.feature.properties["Number of Active Voters"]    
 }).addTo(map);
 
-var point = {
-    "type": "Feature",
-    "properties": {
-        "name": "Coors Field",
-        "amenity": "Baseball Stadium",
-        "popupContent": "This is where the Rockies play!"
-    },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [-118.2437, 34.0522]
-    }
-};
+// var point_layer = L.geoJSON(vctest, {
+// }).addTo(map);
 
-var point_layer = L.geoJSON(point, {
-}).addTo(map);
+var controlLayers = L.control.layers().addTo(map);
 
+// $.getJSON(vctest, function (geojson) {
+  var geojsonLayer = L.geoJson(vctest, {
+    onEachFeature: function (feature, layer) {
+    layer.bindPopup('Number of Votes Cast: '+feature.properties["In Person Live Ballots Cast"]);
+  }
+  })
+  controlLayers.addOverlay(geojsonLayer, 'View Vote Centers');
+// });
 
 </script>
 
