@@ -110,3 +110,8 @@ hr {
     line-height:36px;
 
 }
+
+.myDivIcon {
+    text-align: center; /* Horizontally center the text (icon) */
+    line-height: 20px; /* Vertically center the text (icon) */
+  }

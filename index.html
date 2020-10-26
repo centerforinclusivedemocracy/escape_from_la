@@ -20,6 +20,13 @@
 <!-- Add jQuery -->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
+<!-- <Add FontAwesome Icons -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet-src.js" integrity="sha512-IkGU/uDhB9u9F8k+2OsA6XXoowIhOuQL1NTgNZHY1nkURnqEGlDZq3GsfmdJdKFe1k1zOc6YU2K7qY+hF9AodA==" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.awesome-markers@2.0.4/dist/leaflet.awesome-markers.css" />
+<script src="https://unpkg.com/leaflet.awesome-markers@2.0.4/dist/leaflet.awesome-markers.js"></script>
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+
 </head> 
 
 <body>
@@ -29,14 +36,14 @@
 <div id="loading" style="text-align:center;">
     <img id="loading-image" src="CID.png" alt="Loading..." style="text-align:center;"/>
     <h3 style="text-align:center;">Loading approximately 250,000 precinct polygons for Los Angeles County... please allow several seconds to load.</h3>
-    <!-- <div class="spinner-border slow text-danger" style="width: 13rem; height: 13rem;" role="status">
+    <div class="spinner-border slow text-danger" style="width: 13rem; height: 13rem;" role="status">
         <span class="sr-only">Loading...</span>
         </div>
     <div class="spinner-border slow text-dark" style="width: 13rem; height: 13rem;" role="status">
     <span class="sr-only">Loading...</span>
     </div>
     <div class="spinner-border slow text-warning" style="width: 13rem; height: 13rem;" role="status">
-    <span class="sr-only">Loading...</span> -->
+    <span class="sr-only">Loading...</span>
     </div>
 </div> 
 
@@ -167,8 +174,19 @@ var polygons = L.geoJson(la, {
 
 var controlLayers = L.control.layers().addTo(map);
 
+const fontAwesomeIcon = L.divIcon({
+  html: '<i class="fas fa-landmark"></i>',
+  iconSize: [20, 20],
+  className: 'myDivIcon'
+});
+
 // $.getJSON(vctest, function (geojson) {
   var geojsonLayer = L.geoJson(vctest, {
+        icon: L.divIcon({
+        html: '<i class="fa fa-truck" style="color: red"></i>',
+        iconSize: [20, 20],
+        className: 'myDivIcon'
+    }),
     onEachFeature: function (feature, layer) {
     layer.bindPopup('Number of Votes Cast: '+feature.properties["In Person Live Ballots Cast"]);
   }
@@ -181,7 +199,7 @@ var controlLayers = L.control.layers().addTo(map);
   <body>
   
   <div id='infobox' class='infobox'
-   style='position: absolute; z-index:9999; border:2px solid grey; width: 475px; background-color:rgba(255, 255, 255, 0.8);
+   style='position: absolute; z-index:9999; border:2px solid grey; width: 500px; background-color:rgba(255, 255, 255, 0.8);
   border-radius:6px; padding: 3px; font-size:14px; right: 20px; bottom: 20px;'
   >
        
@@ -197,7 +215,7 @@ var controlLayers = L.control.layers().addTo(map);
    
   <div id='maplegend' class='maplegend' 
       style='position: absolute; z-index:9999; border:2px solid grey; background-color:rgba(255, 255, 255, 0.8);
-       border-radius:6px; padding: 2px; font-size:14px; right: 20px; bottom: 125px;'>
+       border-radius:6px; padding: 2px; font-size:14px; right: 20px; bottom: 140px;'>
        
   <div class='legend-title'>Percent of Registered<br>Voters Casting Ballots</div>
   <div class='legend-scale'>
