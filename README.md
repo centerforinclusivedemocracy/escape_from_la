@@ -1,7 +1,6 @@
 # leaflet-map-example
-A simple leaflet map example from my blog at https://opengislab.com/
 
-The actual blog post that accompanies this is here: https://opengislab.com/blog/2018/2/4/creating-simple-leaflet-web-map
+Some formatting notes: 
 
 Demo site: https://stephsaephan.github.io/leaflet-map-example/
 
