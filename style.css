@@ -47,7 +47,7 @@ html, body, #map {
 
 .maplegend .legend-title {
     text-align: left;
-    /* margin-bottom: 5px; */
+    margin-bottom: 5px;
     font-weight: bold;
     font-size: 90%;
     }

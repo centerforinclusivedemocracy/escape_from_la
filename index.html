@@ -178,13 +178,13 @@ var controlLayers = L.control.layers().addTo(map);
   <body>
   
   <div id='infobox' class='infobox'
-   style='position: absolute; z-index:9999; border:2px solid grey; width: 450px; background-color:rgba(255, 255, 255, 0.8);
-  border-radius:6px; padding: 2px; font-size:14px; right: 20px; bottom: 20px;'
+   style='position: absolute; z-index:9999; border:2px solid grey; width: 475px; background-color:rgba(255, 255, 255, 0.8);
+  border-radius:6px; padding: 3px; font-size:14px; right: 20px; bottom: 20px;'
   >
        
   <div>
       <b>Data Source</b>: California Secretary of Stata VoteCal System. Data by race, ethnicity, age, and other demographic characteristics of the voter are not available from the VoteCA system.<br><hr>
-      <i>To learn about the USC Center for Inclusive Democracy visit its <a href="https://cid.usc.edu/" style="color:Blue;" target="_blank" rel="noopener noreferrer">website</a></i>.
+      <i>The LA County Early Vote Count Tool was developed by the <a href="https://cid.usc.edu/" style="color:Blue;" target="_blank" rel="noopener noreferrer"> USC Center for Inclusive Democracy</a> in partnership with the California Secretary of State's Office.</i>
   </div>
   </div>
    
@@ -194,13 +194,13 @@ var controlLayers = L.control.layers().addTo(map);
    
   <div id='maplegend' class='maplegend' 
       style='position: absolute; z-index:9999; border:2px solid grey; background-color:rgba(255, 255, 255, 0.8);
-       border-radius:6px; padding: 2px; font-size:14px; right: 20px; bottom: 120px;'>
+       border-radius:6px; padding: 2px; font-size:14px; right: 20px; bottom: 125px;'>
        
   <div class='legend-title'>Percent of Registered<br>Voters Casting Ballots</div>
   <div class='legend-scale'>
     <ul class='legend-labels'>
       <li><span style='background:#C4CACF;opacity:0.7;'></span> No Data</li>
-      <li><span style='background:#ffffd9;opacity:0.7;'></span> &lt;10% </li>
+      <li><span style='background:#ffffd9;opacity:0.7;'></span> &lt; 10% </li>
       <li><span style='background:#edf8b1;opacity:0.7;'></span> 10-20%</li>
       <li><span style='background:#c7e9b4;opacity:0.7;'></span> 20-30%</li>
       <li><span style='background:#7fcdbb;opacity:0.7;'></span> 30-40%</li>
@@ -208,7 +208,7 @@ var controlLayers = L.control.layers().addTo(map);
       <li><span style='background:#1d91c0;opacity:0.7;'></span> 50-60%</li>
       <li><span style='background:#225ea8;opacity:0.7;'></span> 60-70%</li>
       <li><span style='background:#253494;opacity:0.7;'></span> 70-80%</li>
-      <li><span style='background:#081d58;opacity:0.7;'></span> >90%</li>
+      <li><span style='background:#081d58;opacity:0.7;'></span> > 90%</li>
   
     </ul>
   </div>
@@ -229,10 +229,12 @@ var controlLayers = L.control.layers().addTo(map);
   </div>
   </div>
 
-  <img id="float_image" alt="float_image"
-                 src="https://raw.githubusercontent.com/centerforinclusivedemocracy/la-vote/folium-map-final/CID3.png?token=AEH24OAXWBYTBNIU22O23VK7TIJYM"
-                 style='position: absolute; z-index:9999; padding-top: 0px; padding-bottom:1px; padding-right:10px; padding-left:0px; font-size:14px; bottom: 30px; left: 1px;'>
-</img>
+  <a href="https://cid.usc.edu/" target="_blank" rel="noopener noreferrer">
+    <img id="float_image" alt="float_image"
+                    src="https://raw.githubusercontent.com/centerforinclusivedemocracy/la-vote/folium-map-final/CID3.png?token=AEH24OAXWBYTBNIU22O23VK7TIJYM"
+                    style='position: absolute; z-index:9999; padding-top: 0px; padding-bottom:1px; padding-right:10px; padding-left:0px; font-size:14px; bottom: 30px; left: 1px;'>
+        </img>
+    </a>
    
   </body>
 </script>
