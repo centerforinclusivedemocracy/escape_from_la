@@ -152,11 +152,6 @@
 //     });
 // }
 
-// geojson = L.geoJson(la, {
-//     style: style,
-//     onEachFeature: onEachFeature
-// }).addTo(map);
-
 var polygons = L.geoJson(la, {
     style: style,
     // onEachFeature: onEachFeature
@@ -169,30 +164,44 @@ var polygons = L.geoJson(la, {
   '<br><b>Total Registered Voters: </b>'+layer.feature.properties["Number of Active Voters"]    
 }).addTo(map);
 
-// var point_layer = L.geoJSON(vctest, {
-// }).addTo(map);
+//   var geojsonLayer = L.geoJson(vctest, {
+//     onEachFeature: function (feature, layer) {
+//     layer.bindPopup('Number of Votes Cast: '+feature.properties["In Person Live Ballots Cast"]);
+//   }
+//   })
 
-var controlLayers = L.control.layers().addTo(map);
+function vc_style(feature, latlng) {
+    switch(feature.properties["Vote Center Type"]) {
+        case "4 Day":
+            var four_day = new L.divIcon({
+                className: 'four',
+                    html: "<div style='background-color:#575556;' class='marker-pin2'></div><i class='fas fa-university awesome'>",
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42]
+                });
+            return L.marker(latlng, {icon: four_day});
+        case "11 Day":
+            var eleven_day = new L.divIcon({
+                className: 'eleven',
+                    html: "<div style='background-color:#4838cc;' class='marker-pin'></div><i class='fas fa-university awesome'>",
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42]
+                });
+            return L.marker(latlng, {icon: eleven_day});              
+        }       
+};
 
-const fontAwesomeIcon = L.divIcon({
-  html: '<i class="fas fa-landmark"></i>',
-  iconSize: [20, 20],
-  className: 'myDivIcon'
+var geojsonLayer = L.geoJson(vctest, {
+    pointToLayer: vc_style,
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup('<b>Location</b>: '+feature.properties["Address"]+
+        '<br><b>Number of Votes Cast</b>: '+feature.properties["In Person Live Ballots Cast"]);
+    }
 });
 
-// $.getJSON(vctest, function (geojson) {
-  var geojsonLayer = L.geoJson(vctest, {
-        icon: L.divIcon({
-        html: '<i class="fa fa-truck" style="color: red"></i>',
-        iconSize: [20, 20],
-        className: 'myDivIcon'
-    }),
-    onEachFeature: function (feature, layer) {
-    layer.bindPopup('Number of Votes Cast: '+feature.properties["In Person Live Ballots Cast"]);
-  }
-  })
-  controlLayers.addOverlay(geojsonLayer, 'View Vote Centers');
-// });
+var controlLayers = L.control.layers(null,null,{collapsed:false}).addTo(map);
+
+controlLayers.addOverlay(geojsonLayer, 'View Vote Centers');
 
 </script>
 
@@ -244,9 +253,9 @@ const fontAwesomeIcon = L.divIcon({
        top: 20px; left: 20px;'>
        
   <div class='legend-title'> 
-      <h3 align="center" style="font-size:20px"><b>Los Angeles County Early<br>Vote Count by Precinct</b></h3>
+      <h3 align="center" style="font-size:20px"><b>Los Angeles County Early Ballot<br>Count by Precinct and Vote Center</b></h3>
       <h4 align="center" style="font-size:15px"><b>2020 General Election</b></h4>
-      <h5 align="center"style="font-size:12px">Last Updated: 10/20/2020</h5> 
+      <h5 align="center"style="font-size:12px">Last Updated: 10/26/2020</h5> 
   </div>
   </div>
 

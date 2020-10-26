@@ -111,7 +111,97 @@ hr {
 
 }
 
-.myDivIcon {
-    text-align: center; /* Horizontally center the text (icon) */
-    line-height: 20px; /* Vertically center the text (icon) */
+/* icons */
+
+ .marker-pin {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% 50% 50% 0;
+    background: #c30b82;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 50%;
+    top: 50%;
+    margin: -15px 0 0 -15px;
   }
+  .marker-pin2 {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% 50% 50% 0;
+    background: #c30b82;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 50%;
+    top: 50%;
+    margin: -15px 0 0 -15px;
+  }
+  /* // to draw white circle */
+  .marker-pin::after {
+      content: '';
+      width: 24px;
+      height: 24px;
+      margin: 3px 0 0 3px;
+      background: #fff;
+      position: absolute;
+      border-radius: 50%;
+      opacity: .9;
+   }
+
+   .marker-pin2::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin: 3px 0 0 3px;
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+    opacity: .5;
+ }
+  /* // to align icon */
+  .four i {
+     position: absolute;
+     width: 22px;
+     font-size: 22px;
+     left: 0;
+     right: 0;
+     margin: 10px auto;
+     text-align: center;
+  }
+
+ .four i.awesome {
+    margin: 12px auto;
+    font-size: 17px;
+ }
+   /* // to align icon */
+.eleven i {
+    position: absolute;
+    width: 22px;
+    font-size: 22px;
+    left: 0;
+    right: 0;
+    margin: 10px auto;
+    text-align: center;
+ }
+
+.eleven i.awesome {
+   margin: 12px auto;
+   font-size: 17px;
+}
+
+/* .leaflet-control-layers {
+    margin-bottom: 1px;
+    padding: 0;
+  } */
+
+  /* .leaflet-control-layers-expanded {
+	padding: 0;
+	color: #333;
+	background: rgb(168, 18, 18);
+    } */
+    
+.leaflet-control-layers {
+    margin-left: 30px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    background: rgb(95, 21, 21);
+    border-radius: 5px;
+    }
