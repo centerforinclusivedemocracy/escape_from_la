@@ -191,13 +191,14 @@ function vc_style(feature, latlng) {
         }       
 };
 
-var geojsonLayer = L.geoJson(vctest, {
-    pointToLayer: vc_style,
-    onEachFeature: function (feature, layer) {
-        layer.bindPopup('<b>Location</b>: '+feature.properties["Address"]+
-        '<br><b>Number of Votes Cast</b>: '+feature.properties["In Person Live Ballots Cast"]);
-    }
-});
+// var geojsonLayer = L.geoJson(vctest, {
+//     pointToLayer: vc_style,
+//     onEachFeature: function (feature, layer) {
+//         layer.bindPopup('<b>Vote Center</b>'+
+//         '<br><b>Location</b>: '+feature.properties["Address"]+
+//         '<br><b>Number of Votes Cast</b>: '+feature.properties["In Person Live Ballots Cast"]);
+//     }
+// });
 
 var controlLayers = L.control.layers(null,null,{collapsed:false}).addTo(map);
 

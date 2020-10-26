@@ -188,20 +188,8 @@ hr {
    font-size: 17px;
 }
 
-/* .leaflet-control-layers {
+.leaflet-control-layers-overlay {
     margin-bottom: 1px;
     padding: 0;
-  } */
+  }
 
-  /* .leaflet-control-layers-expanded {
-	padding: 0;
-	color: #333;
-	background: rgb(168, 18, 18);
-    } */
-    
-.leaflet-control-layers {
-    margin-left: 30px;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-    background: rgb(95, 21, 21);
-    border-radius: 5px;
-    }
