@@ -96,7 +96,7 @@
         return {
             fillColor: getColor(feature.properties.pctvote),
             weight: 1,
-            opacity: 1,
+            opacity: .25,
             color: '#4a4c4f',
             fillOpacity: 0.7
         };
@@ -194,7 +194,8 @@ function vc_style(feature, latlng) {
 var geojsonLayer = L.geoJson(vctest, {
     pointToLayer: vc_style,
     onEachFeature: function (feature, layer) {
-        layer.bindPopup('<b>Location</b>: '+feature.properties["Address"]+
+        layer.bindPopup('<b>Vote Center</b>'+
+        '<br><b>Location</b>: '+feature.properties["Address"]+
         '<br><b>Number of Votes Cast</b>: '+feature.properties["In Person Live Ballots Cast"]);
     }
 });
@@ -209,7 +210,7 @@ controlLayers.addOverlay(geojsonLayer, 'View Vote Centers');
   
   <div id='infobox' class='infobox'
    style='position: absolute; z-index:9999; border:2px solid grey; width: 500px; background-color:rgba(255, 255, 255, 0.8);
-  border-radius:6px; padding: 3px; font-size:14px; right: 20px; bottom: 20px;'
+  border-radius:6px; padding: 3px; font-size:14px; right: 15px; bottom: 20px;'
   >
        
   <div>
@@ -224,7 +225,7 @@ controlLayers.addOverlay(geojsonLayer, 'View Vote Centers');
    
   <div id='maplegend' class='maplegend' 
       style='position: absolute; z-index:9999; border:2px solid grey; background-color:rgba(255, 255, 255, 0.8);
-       border-radius:6px; padding: 2px; font-size:14px; right: 20px; bottom: 140px;'>
+       border-radius:6px; padding: 2px; font-size:14px; right: 15px; bottom: 140px;'>
        
   <div class='legend-title'>Percent of Registered<br>Voters Casting Ballots</div>
   <div class='legend-scale'>
@@ -255,7 +256,7 @@ controlLayers.addOverlay(geojsonLayer, 'View Vote Centers');
   <div class='legend-title'> 
       <h3 align="center" style="font-size:20px"><b>Los Angeles County Early Ballot<br>Count by Precinct and Vote Center</b></h3>
       <h4 align="center" style="font-size:15px"><b>2020 General Election</b></h4>
-      <h5 align="center"style="font-size:12px">Last Updated: 10/26/2020</h5> 
+      <h5 align="center"style="font-size:12px">Last Updated: 6 pm on 10/25/2020</h5> 
   </div>
   </div>
 
