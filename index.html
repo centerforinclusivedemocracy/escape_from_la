@@ -88,7 +88,6 @@ var tile_layer = L.tileLayer(
 
 
 // Legend color pallette and function
-
 function getColor(d) {
     return d > 90 ? '#081d58' :
         d > 80  ? '#253494' :
@@ -186,7 +185,6 @@ var controlLayers = L.control.layers(null,null,{collapsed:false}).addTo(map);
 controlLayers.addOverlay(geojsonLayer, ' View Vote Centers');
 
 // Control that shows state info on hover
-// var info = L.control.info({ position: 'bottomleft' });
 var info = L.control();
 
 info.onAdd = function (map) {
@@ -256,7 +254,6 @@ info.addTo(map);
 </script>
 
 <!-- Divs for text / legend -->
-
   <body>
   
   <div id='infobox' class='infobox'
