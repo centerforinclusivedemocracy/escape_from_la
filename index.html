@@ -87,87 +87,6 @@ var tile_layer = L.tileLayer(
         ).addTo(map);
 
 
-// New control class
-L.Control.Info = L.Control.extend({
-    onAdd: function(map) {
-    },
-
-    onRemove: function(map) {
-        // Nothing to do here
-    }
-});
-
-L.control.info = function(opts) {
-    return new L.Control.Info(opts);
-}
-
-// Control that shows state info on hover
-// var info = L.control.info({ position: 'bottomleft' });
-var info = L.control.info();
-
-info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info');
-    this.update();
-    return this._div;
-};
-
-info.update = function (props) {
-    this._div.innerHTML = 
-        '<h5>LA County Ballot Data</h5>' + 
-        '<b>Total Registered Voters in LA County</b>: A Gazillion<br>'+
-        '<b>Total Votes cast in LA County</b>: 1.2 Bazillion<br>'+
-        '<b>Percent of Registered Voters Casting Ballots</b>: 18%<br>'+
-        '<hr>'+
-        '<h5>LA Precinct Ballot Data</h5>' + 
-      (
-        props ?
-        '<b>Precinct: </b>'+props.precinct+ 
-        '<br><b>Percent of Registered Voters Casting Ballots: </b>'+props.pctvote+'%'+
-        '<br><b>Vote By Mail Ballots Cast: </b>'+props["Percent VBM"]+
-        '<br><b>In Person Live Ballots Cast: </b>'+props["Percent Poll"]+
-        '<br><b>Total Votes Cast: </b>'+props["Total Votes"]+
-        '<br><b>Total Registered Voters: </b>'+props["Number of Active Voters"]
-        : 'Hover over a precinct to view data'
-        );
-};
-
-function highlightFeature(e) {
-    var layer = e.target;
-
-    layer.setStyle({
-			weight: 2.5,
-			color: '#666',
-            opacity: .75,
-			dashArray: '',
-			fillOpacity: 0.2
-		});
-
-    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-        layer.bringToFront();
-    }
-
-    info.update(layer.feature.properties);
-}
-
-function resetHighlight(e) {
-    polygons.resetStyle(e.target);
-    info.update();
-}
-
-function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
-}
-
-function onEachFeature(feature, layer) {
-    layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
-    });
-}
-
-info.addTo(map);
-
 // Legend color pallette and function
 
 function getColor(d) {
@@ -213,7 +132,9 @@ var polygons = L.geoJson(la, {
 // Geocoder: plugin from https://github.com/perliedman/leaflet-control-geocoder
 var geocoder = L.Control.geocoder({
     defaultMarkGeocode: false,
-    position: 'topright'
+    collapsed: false,
+    position: 'topright',
+    placeholder: 'Search for specific location...'
     })
     .on('markgeocode', function(e) {
         var bbox = e.geocode.bbox;
@@ -262,7 +183,74 @@ var geojsonLayer = L.geoJson(vc, {
 // Create layer control icon
 var controlLayers = L.control.layers(null,null,{collapsed:false}).addTo(map);
 // Add VC layer to layer control
-controlLayers.addOverlay(geojsonLayer, 'View Vote Centers');
+controlLayers.addOverlay(geojsonLayer, ' View Vote Centers');
+
+// Control that shows state info on hover
+// var info = L.control.info({ position: 'bottomleft' });
+var info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info');
+    this.update();
+    return this._div;
+};
+
+info.update = function (props) {
+    this._div.innerHTML = 
+        '<h5>LA County Ballot Data</h5>' +
+        'Total Registered Voters in LA County: <span style="color:#800000";><b>2345674</span></b><br>'+
+        'Total Votes Cast in LA County: <span style="color:#800000";><b>7792</span></b><br>'+
+        'Percent of Registered Voters Casting Ballots: <span style="color:#800000";><b>45%</span></b><br>'+
+        '<hr>'+
+        '<h5>LA Precinct Ballot Data</h5>' + 
+      (
+        props ?
+        'Precinct: '+'<span style="color:#004080";><b>'+props.precinct+'</b></span>'+ 
+        '<br>Percent of Registered Voters Casting Ballots: <span style="color:#004080";><b>'+props.pctvote+'%</span></b>'+
+        '<br>Vote By Mail Ballots Cast: <span style="color:#004080";><b>'+props["Percent VBM"]+'</span></b>'+
+        '<br>In Person Live Ballots Cast: <span style="color:#004080";><b>'+props["Percent Poll"]+'</span></b>'+
+        '<br>Total Votes Cast: <span style="color:#004080";><b>'+props["Total Votes"]+'</span></b>'+
+        '<br>Total Registered Voters: <span style="color:#004080";><b>'+props["Number of Active Voters"]+'</span></b>'
+        : 'Hover over a precinct to view data'
+        );
+};
+
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+			weight: 2.5,
+			color: '#666',
+            opacity: .75,
+			dashArray: '',
+			fillOpacity: 0.2
+		});
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+
+    info.update(layer.feature.properties);
+}
+
+function resetHighlight(e) {
+    polygons.resetStyle(e.target);
+    info.update();
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+info.addTo(map);
 
 </script>
 
@@ -276,7 +264,7 @@ controlLayers.addOverlay(geojsonLayer, 'View Vote Centers');
   >
        
   <div>
-      <b>Data Source</b>: California Secretary of State VoteCal System. Data by race, ethnicity, age, language spoken, and other demographic characteristics of all voters are not available from the VoteCal system.<br><hr>
+      <b>Data Source</b>: California Secretary of State VoteCal System. Data by race and ethnicity of all voters are not available from the VoteCal system.<br><hr>
       <i>The LA County Early Ballot Count Tool was developed by the <a href="https://cid.usc.edu/" style="color:Blue;" target="_blank" rel="noopener noreferrer"> USC Center for Inclusive Democracy</a> in partnership with the California Secretary of State's Office.</i>
   </div>
   </div>
