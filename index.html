@@ -206,11 +206,12 @@ info.update = function (props) {
       (
         props ?
         'Precinct: '+'<span style="color:#004080";><b>'+props.precinct+'</b></span>'+ 
-        '<br>Percent of Registered Voters Casting Ballots: <span style="color:#004080";><b>'+props.pctvote+'%</span></b>'+
-        '<br>Vote By Mail Ballots Cast: <span style="color:#004080";><b>'+props["Percent VBM"]+'</span></b>'+
-        '<br>In Person Live Ballots Cast: <span style="color:#004080";><b>'+props["Percent Poll"]+'</span></b>'+
+        '<br>Total Registered Voters: <span style="color:#004080";><b>'+props["Number of Active Voters"]+'</span></b>'+
         '<br>Total Votes Cast: <span style="color:#004080";><b>'+props["Total Votes"]+'</span></b>'+
-        '<br>Total Registered Voters: <span style="color:#004080";><b>'+props["Number of Active Voters"]+'</span></b>'
+        '<br>Percent of Registered Voters Casting Ballots: <span style="color:#004080";><b>'+props['Percent Votes Cast']+'</span></b>'+
+        '<br>Percent of All Ballots Cast by Mail: <span style="color:#004080";><b>'+props["Percent Mail"]+'</span></b>'+
+        '<br>Percent of All Ballots Cast by Drop Box: <span style="color:#004080";><b>'+props["Percent Drop Box"]+'</span></b>'+
+        '<br>Percent of All Ballots Cast In-Person: <span style="color:#004080";><b>'+props["Percent Poll"]+'</span></b>'
         : 'Hover over a precinct to view data'
         );
 };
@@ -306,7 +307,7 @@ info.addTo(map);
   <div class='legend-title'> 
       <h3 align="center" style="font-size:20px"><b>Los Angeles County Early Ballot<br>Count by Precinct and Vote Center</b></h3>
       <h4 align="center" style="font-size:15px"><b>2020 General Election</b></h4>
-      <h5 align="center"style="font-size:12px">Last Updated: 6 pm on 10/26/2020</h5> 
+      <h5 align="center"style="font-size:12px">Last Updated: 9:30 am on 10/27/2020</h5> 
   </div>
   </div>
 
