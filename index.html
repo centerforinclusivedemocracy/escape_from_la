@@ -131,8 +131,74 @@ var polygons = L.geoJson(la, {
 //   '<br><b>Percent of All Ballots Cast In-Person: </b>'+layer.feature.properties["Percent Poll"]
 // }).addTo(map);
 
+// Create VC layer and add popups with info
+var geojsonLayer = L.geoJson(vc, {
+    pointToLayer: vc_style,
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup('<b>'+feature.properties["Vote Center Type"]+' Vote Center</b>'+
+        '<br><b>Vote Center Location:</b>'+feature.properties["Address"]+
+        '<br><b>Number of In-person Votes Cast</b>: '+feature.properties["Number of Votes Accepted"]);
+    }
+});
+
+// Swtich function for VC 4day/11day icons to show 
+function vc_style(feature, latlng) {
+    switch(feature.properties["Vote Center Type"]) {
+        case "4 Day":
+            var four_day = new L.divIcon({
+                className: 'four',
+                    html: "<div style='background-color:#575556;' class='marker-pin'></div><i class='fa fa-building' style='color:#575556'></i>",
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42]
+                });
+            return L.marker(latlng, {icon: four_day});
+        case "11 Day":
+            var eleven_day = new L.divIcon({
+                className: 'eleven',
+                    html: "<div style='background-color:#4838cc;' class='marker-pin'></div><i class='fa fa-building' style='color:#4838cc'></i>",
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42]
+                });
+            return L.marker(latlng, {icon: eleven_day});              
+        }       
+};
+
+// Popup legend for VCs
+var popuLegend = L.control();
+popuLegend.onAdd = function(map){
+    var div = L.DomUtil.create('container', 'legend2');
+	div.innerHTML += "<div <i class='fa fa-building fa-3x' style='color:#575556'></i></div>" + "<span style='font-weight: bold;position: relative;margin-bottom: 5px;'> Four-Day</span>" + '<br>'
+	div.innerHTML += "<div <i class='fa fa-building fa-3x' style='color:#4838cc'></i></div>" + "<span style='font-weight: bold;position: relative;margin-bottom: 5px;'> Eleven-Day</span>" + '<br>'
+    return div;
+};
+
+// Create custom VC layer control button
+var animatedToggle = L.easyButton({
+    id: 'animated-marker-toggle',
+    position: 'topright',
+    states: [{
+        stateName: 'add-markers',
+        icon: '<strong>Select Vote Center Layer</strong>',
+        onClick: function(control) {
+        map.addLayer(geojsonLayer);
+        map.addControl(popuLegend);
+        control.state('remove-markers');
+        }
+    }, {
+        stateName: 'remove-markers',
+        icon: '<strong>Remove Vote Center Layer</strong>',
+        onClick: function(control) {
+        map.removeLayer(geojsonLayer);
+        map.removeControl(popuLegend);
+        control.state('add-markers');
+        }
+    }]
+});
+animatedToggle.addTo(map);
+
 // Geocoder: plugin from https://github.com/perliedman/leaflet-control-geocoder
 var geocoder = L.Control.geocoder({
+    id: 'geocode',
     defaultMarkGeocode: false,
     collapsed: false,
     position: 'topright',
@@ -149,66 +215,6 @@ var geocoder = L.Control.geocoder({
         map.fitBounds(poly.getBounds());
     })
     .addTo(map);
-
-// Swtich function for VC 4day/11day icons to show 
-function vc_style(feature, latlng) {
-    switch(feature.properties["Vote Center Type"]) {
-        case "4 Day":
-            var four_day = new L.divIcon({
-                className: 'four',
-                    html: "<div style='background-color:#575556;' class='marker-pin2'></div><i class='far fa-building awesome'>",
-                    iconSize: [30, 42],
-                    iconAnchor: [15, 42]
-                });
-            return L.marker(latlng, {icon: four_day});
-        case "11 Day":
-            var eleven_day = new L.divIcon({
-                className: 'eleven',
-                    html: "<div style='background-color:#4838cc;' class='marker-pin'></div><i class='far fa-building awesome'>",
-                    iconSize: [30, 42],
-                    iconAnchor: [15, 42]
-                });
-            return L.marker(latlng, {icon: eleven_day});              
-        }       
-};
-
-// Create VC layer and add popups with info
-var geojsonLayer = L.geoJson(vc, {
-    pointToLayer: vc_style,
-    onEachFeature: function (feature, layer) {
-        layer.bindPopup('<b>'+feature.properties["Vote Center Type"]+' Vote Center</b>'+
-        '<br><b>Vote Center Location:</b>'+feature.properties["Address"]+
-        '<br><b>Number of In-person Votes Cast</b>: '+feature.properties["Number of Votes Accepted"]);
-    }
-});
-
-// Create custom layer control button
-var animatedToggle = L.easyButton({
-    id: 'animated-marker-toggle',
-    position: 'topright',
-    states: [{
-        stateName: 'add-markers',
-        icon: '<strong>Select Vote Center Layer</strong>',
-        onClick: function(control) {
-        map.addLayer(geojsonLayer);
-        control.state('remove-markers');
-        }
-    }, {
-        stateName: 'remove-markers',
-        icon: '<strong>Remove Vote Center Layer</strong>',
-        onClick: function(control) {
-            map.removeLayer(geojsonLayer);
-        control.state('add-markers');
-        }
-    }]
-});
-animatedToggle.addTo(map);
-
-// // Create layer control icon
-// var controlLayers = L.control.layers(null,null,{collapsed:false}).addTo(map);
-
-// // Add VC layer to layer control
-// controlLayers.addOverlay(geojsonLayer, ' View Vote Centers');
 
 // Control that shows state info on hover
 var info = L.control();
