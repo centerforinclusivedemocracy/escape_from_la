@@ -34,9 +34,6 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
-<!--Get EasyButton source-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
-<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 </head> 
 
 <body>
@@ -176,39 +173,16 @@ function vc_style(feature, latlng) {
 var geojsonLayer = L.geoJson(vc, {
     pointToLayer: vc_style,
     onEachFeature: function (feature, layer) {
-        layer.bindPopup('<b>'+feature.properties["Vote Center Type"]+' Vote Center</b>'+
-        '<br><b>Vote Center Location:</b>'+feature.properties["Address"]+
+        layer.bindPopup('<b>Vote Center Location:</b>'+
+        '<br>'+feature.properties["Address"]+
         '<br><b>Number of In-person Votes Cast</b>: '+feature.properties["Number of Votes Accepted"]);
     }
 });
 
-// Create custom layer control button
-var animatedToggle = L.easyButton({
-    id: 'animated-marker-toggle',
-    position: 'topright',
-    states: [{
-        stateName: 'add-markers',
-        icon: '<strong>Select Vote Center Layer</strong>',
-        onClick: function(control) {
-        map.addLayer(geojsonLayer);
-        control.state('remove-markers');
-        }
-    }, {
-        stateName: 'remove-markers',
-        icon: '<strong>Remove Vote Center Layer</strong>',
-        onClick: function(control) {
-            map.removeLayer(geojsonLayer);
-        control.state('add-markers');
-        }
-    }]
-});
-animatedToggle.addTo(map);
-
-// // Create layer control icon
-// var controlLayers = L.control.layers(null,null,{collapsed:false}).addTo(map);
-
-// // Add VC layer to layer control
-// controlLayers.addOverlay(geojsonLayer, ' View Vote Centers');
+// Create layer control icon
+var controlLayers = L.control.layers(null,null,{collapsed:false}).addTo(map);
+// Add VC layer to layer control
+controlLayers.addOverlay(geojsonLayer, ' View Vote Centers');
 
 // Control that shows state info on hover
 var info = L.control();
