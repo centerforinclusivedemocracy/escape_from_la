@@ -33,4 +33,4 @@ To process precinct and vote center voting data for LA county and output data as
 
 Below is a diagram of the required directory structure:
 
-![](https://raw.githubusercontent.com/centerforinclusivedemocracy/la-vote/master/directory_chart.PNG)
+![](https://raw.githubusercontent.com/centerforinclusivedemocracy/escape_from_la/master/directory_chart.PNG)
