@@ -14,7 +14,6 @@ html, body, #map {
     position: relative;
     text-align:right;
     color: #777;
-    /* font: 12px/14px Helvetica, serif; */
     font: 12px/14px Helvetica, serif;
     background: white;
     background: rgba(255,255,255,0.8);
@@ -173,9 +172,11 @@ hr {
 
 /* legend2 */
 .legend2 {
-    position: absolute;
-    right: 150px;
-    bottom: -317.5px;
+    /* position: relative;
+    left: -1000px;
+    bottom: -417.5px; */
+    /* right: 150px;
+    bottom: -317.5px; */
     line-height: 18px;
 	color: #333333;
 	font-family: 'Open Sans', Helvetica, sans-serif;
@@ -211,3 +212,19 @@ hr {
 	size: 14 !important;
 
 }
+
+.leaflet-verticalcenter {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    top: 73.5%; 
+    left: 10%;
+    /* transform: translateY(-50%);  */
+    padding-top: 10px;
+    margin-right: 150px;
+}
+
+.leaflet-verticalcenter .leaflet-control {
+    margin-bottom: 10px;
+}
+
