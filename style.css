@@ -8,19 +8,29 @@ html, body, #map {
     width: 100%;
 }
 
-/* infobox */
-
-.infobox .infobox-title {
-    text-align: left;
-    margin-top: 1px;
-    margin-bottom: 5px;
+/* info box */
+.info {
+    padding: 6px 8px;
+    position: relative;
+    text-align:right;
+    color: #777;
+    font: 12px/14px Helvetica, serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    border: 2px solid #999;
+}
+.info h5 {
+    margin: 0 0 5px;
     font-weight: bold;
-    font-size: 90%;
-    }
+    color: rgb(0, 0, 0);
+}
 
 /* legend */
 
 .maplegend .legend-title {
+    font: Helvetica, serif;
     text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
@@ -28,7 +38,7 @@ html, body, #map {
     }
   .maplegend .legend-scale ul {
     margin: 0;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     padding: 0;
     float: left;
     list-style: none;
@@ -38,15 +48,15 @@ html, body, #map {
     list-style: none;
     margin-left: 0;
     line-height: 18px;
-    margin-bottom: 2px;
+    /* margin-bottom: 2px; */
     }
   .maplegend ul.legend-labels li span {
     display: block;
     float: left;
     height: 16px;
-    width: 30px;
+    width: 40px;
     margin-right: 5px;
-    margin-left: 0;
+    margin-left: 2;
     border: 1px solid #999;
     }
   .maplegend .legend-source {
@@ -57,3 +67,164 @@ html, body, #map {
   .maplegend a {
     color: #777;
     }
+
+/* horizonal line break */
+
+hr { 
+    color:#777;
+    display: block;
+    padding: 0 !important;
+    margin: 2px !important;
+    border-style: inset;
+    border-width: 1px;
+
+} 
+
+/* VC icons */
+
+ .marker-pin {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% 50% 50% 0;
+    background: #c30b82;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 50%;
+    top: 50%;
+    margin: -15px 0 0 -15px;
+  }
+  .marker-pin2 {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% 50% 50% 0;
+    background: #c30b82;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 50%;
+    top: 50%;
+    margin: -15px 0 0 -15px;
+  }
+  /* // to draw white circle */
+  .marker-pin::after {
+      content: '';
+      width: 24px;
+      height: 24px;
+      margin: 3px 0 0 3px;
+      background: #fff;
+      position: absolute;
+      border-radius: 50%;
+      opacity: .9;
+   }
+
+   .marker-pin2::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin: 3px 0 0 3px;
+    background: #fff;
+    position: absolute;
+    border-radius: 50%;
+    opacity: .5;
+ }
+  /* // to align icon */
+  .four i {
+     position: absolute;
+     width: 22px;
+     font-size: 18px;
+     left: 0;
+     right: 0;
+     margin: 12px auto;
+     text-align: center;
+  }
+
+ .four i.awesome {
+    margin: 12px auto;
+    font-size: 17px;
+ }
+   /* // to align icon */
+.eleven i {
+    position: absolute;
+    width: 22px;
+    font-size: 18px;
+    left: 0;
+    right: 0;
+    margin: 12px auto;
+    text-align: center;
+ }
+
+.eleven i.awesome {
+   margin: 12px auto;
+   font-size: 17px;
+}
+
+.geocode {
+    border-radius: 5px;
+}
+  
+/* Leaflet EasyButton controls */
+#animated-marker-toggle { 
+    height: 30px !important; 
+    width: 200px !important; 
+    position: relative; 
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+/* legend2 */
+.legend2 {
+    /* position: relative;
+    left: -1000px;
+    bottom: -417.5px; */
+    /* right: 150px;
+    bottom: -317.5px; */
+    line-height: 18px;
+	color: #333333;
+	font-family: 'Open Sans', Helvetica, sans-serif;
+	padding: 6px 8px;
+	background: white;
+	background: rgba(255,255,255,0.8);
+	box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    border: 2px solid #999;
+}
+
+.legend2 i {
+	width: 14 !important;
+	height: 14!important;
+	float: left;
+	margin-right: 8px;
+	opacity: 0.7;
+}
+
+.legend2 img {
+	width: 14 !important;
+	height: 14 !important;
+	float: left;
+}
+
+.legend2 p {
+	font-size: 15px;
+	line-height: 18px;
+    margin: 0;
+}
+
+.legend2 .awesome {
+	size: 14 !important;
+
+}
+
+.leaflet-verticalcenter {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    top: 71.35%; 
+    left: 10%;
+    /* transform: translateY(-50%);  */
+    padding-top: 10px;
+    margin-right: 150px;
+}
+
+.leaflet-verticalcenter .leaflet-control {
+    margin-bottom: 10px;
+}
+
