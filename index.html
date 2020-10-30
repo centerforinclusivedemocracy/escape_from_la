@@ -34,6 +34,9 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
+<!--Get EasyButton source-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 </head> 
 
 <body>
@@ -128,8 +131,109 @@ var polygons = L.geoJson(la, {
 //   '<br><b>Percent of All Ballots Cast In-Person: </b>'+layer.feature.properties["Percent Poll"]
 // }).addTo(map);
 
+// Create VC layer and add popups with info
+var geojsonLayer = L.geoJson(vc, {
+    pointToLayer: vc_style,
+    onEachFeature: function (feature, layer) {
+        // layer.bindPopup(
+        // '<b>'+feature.properties["Vote Center Type"]+' Vote Center</b>'+
+        // '<br><b>Number of In-person Votes Cast</b>: '+feature.properties["Number of Votes Accepted"]+
+        // '<br><b>Vote Center Location:</b>'+'<br>'+feature.properties["Address"]+
+        // '<br><b>Vote Center Size: </b>'+feature.properties.size+'*'+
+        // '<br><b>Number of E-Poll Books Available: </b>'+feature.properties.epoll_allocated+'*'+
+        // '<br><b>Number of Ballot Marking Devices Available: </b>'+feature.properties.bmd_allocated+'*'+
+        // '<br><em>*Data provided by the Los Angeles County Registrar</em>');
+
+        layer.bindPopup(
+        '<b>'+feature.properties["Vote Center Type"]+' Vote Center</b>'+
+        '<br><b>Number of In-person Votes Cast</b>: '+feature.properties["Number of Votes Accepted"]+
+        '<br><b>Vote Center Location:</b>'+'<br>'+feature.properties["Address"]+
+        '<br><b>Vote Center Size: </b>'+feature.properties.size+'*'+
+        '<br><b>Number of E-Poll Books Available: </b>'+feature.properties.epoll_allocated+'*'+
+        '<br><b>Number of Ballot Marking Devices Available: </b>'+feature.properties.bmd_allocated+'*'+
+        '<br><em>*Data provided by the Los Angeles County Registrar</em>',
+        {closeButton: false, offset: L.point(0, -20)});
+        layer.on('mouseover', function() { layer.openPopup(); });
+        layer.on('mouseout', function() { layer.closePopup(); });
+    }
+});
+
+// Swtich function for VC 5day/11day icons to show 
+function vc_style(feature, latlng) {
+    switch(feature.properties["Vote Center Type"]) {
+        case "Five-Day":
+            var five_day = new L.divIcon({
+                className: 'five',
+                    html: "<div style='background-color:#575556;' class='marker-pin'></div><i class='fa fa-building' style='color:#575556'></i>",
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42]
+                });
+            return L.marker(latlng, {icon: five_day});
+        case "Eleven-Day":
+            var eleven_day = new L.divIcon({
+                className: 'eleven',
+                    html: "<div style='background-color:#4838cc;' class='marker-pin'></div><i class='fa fa-building' style='color:#4838cc'></i>",
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42]
+                });
+            return L.marker(latlng, {icon: eleven_day});              
+        }       
+};
+
+// Create additional Control placeholders
+function addControlPlaceholders(map) {
+    var corners = map._controlCorners,
+        l = 'leaflet-',
+        container = map._controlContainer;
+
+    function createCorner(vSide, hSide) {
+        var className = l + vSide + ' ' + l + hSide;
+
+        corners[vSide + hSide] = L.DomUtil.create('div', className, container);
+    }
+
+    createCorner('verticalcenter', 'left');
+    createCorner('verticalcenter', 'right');
+}
+addControlPlaceholders(map);
+
+// Popup legend for VCs
+var vclegend = L.control({position: 'topright'});
+vclegend.onAdd = function(map){
+    var div = L.DomUtil.create('container', 'legend2');
+    div.innerHTML += "<div <span style='position: absolute;top: 2px;font-weight: bold;font-size: 12px;'>Vote Center Type</span></div>" + '<br>'
+	div.innerHTML += "<div <i class='fa fa-building fa-3x' style='color:#575556'></i></div>" + "<span style='font-weight: bold;position: relative;margin-bottom: 5px;'> Five-Day</span>" + '<br>'
+	div.innerHTML += "<div <i class='fa fa-building fa-3x' style='color:#4838cc'></i></div>" + "<span style='font-weight: bold;position: relative;margin-bottom: 5px;'> Eleven-Day</span>" + '<br>'
+    return div;
+};
+
+// Create custom VC layer control button
+var animatedToggle = L.easyButton({
+    id: 'animated-marker-toggle',
+    position: 'topright',
+    states: [{
+        stateName: 'add-markers',
+        icon: '<strong>Select Vote Center Layer</strong>',
+        onClick: function(control) {
+        map.addLayer(geojsonLayer);
+        map.addControl(vclegend);
+        control.state('remove-markers');
+        }
+    }, {
+        stateName: 'remove-markers',
+        icon: '<strong>Remove Vote Center Layer</strong>',
+        onClick: function(control) {
+        map.removeLayer(geojsonLayer);
+        map.removeControl(vclegend);
+        control.state('add-markers');
+        }
+    }]
+});
+animatedToggle.addTo(map);
+
 // Geocoder: plugin from https://github.com/perliedman/leaflet-control-geocoder
 var geocoder = L.Control.geocoder({
+    id: 'geocode',
     defaultMarkGeocode: false,
     collapsed: false,
     position: 'topright',
@@ -147,49 +251,8 @@ var geocoder = L.Control.geocoder({
     })
     .addTo(map);
 
-// Swtich function for VC 4day/11day icons to show 
-function vc_style(feature, latlng) {
-    switch(feature.properties["Vote Center Type"]) {
-        case "4 Day":
-            var four_day = new L.divIcon({
-                className: 'four',
-                    html: "<div style='background-color:#575556;' class='marker-pin2'></div><i class='far fa-building awesome'>",
-                    iconSize: [30, 42],
-                    iconAnchor: [15, 42]
-                });
-            return L.marker(latlng, {icon: four_day});
-        case "11 Day":
-            var eleven_day = new L.divIcon({
-                className: 'eleven',
-                    html: "<div style='background-color:#4838cc;' class='marker-pin'></div><i class='far fa-building awesome'>",
-                    iconSize: [30, 42],
-                    iconAnchor: [15, 42]
-                });
-            return L.marker(latlng, {icon: eleven_day});              
-        }       
-};
-
-// Create VC layer and add popups with info
-var geojsonLayer = L.geoJson(vc, {
-    pointToLayer: vc_style,
-    onEachFeature: function (feature, layer) {
-        layer.bindPopup('<b>Number of In-Person Votes Cast</b>: '+
-        feature.properties["Number of Votes Accepted"]+
-        '<br><b>Vote Center Location:</b>'+'<br>'+feature.properties["Address"]+
-        '<br><b>Vote Center Size: </b>'+feature.properties.size+'*'+
-        '<br><b>Number of E-Poll Books Available: </b>'+feature.properties.epoll_allocated+'*'+
-        '<br><b>Number of Ballot Marking Devices Available: </b>'+feature.properties.bmd_allocated+'*'+
-        '<br><em>*Data provided by the Los Angeles County Registrar</em>');
-    }
-});
-
-// Create layer control icon
-var controlLayers = L.control.layers(null,null,{collapsed:false}).addTo(map);
-// Add VC layer to layer control
-controlLayers.addOverlay(geojsonLayer, ' View Vote Centers');
-
 // Control that shows state info on hover
-var info = L.control();
+var info = L.control( {position: 'topleft'});
 
 info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info');
@@ -200,20 +263,23 @@ info.onAdd = function (map) {
 info.update = function (props) {
     this._div.innerHTML = 
         '<h5>LA County Ballot Data</h5>' +
-        'Total Registered Voters in LA County: <span style="color:#800000";><b>'+la.features[la.features.length-1].properties["Number of Active Voters"]+'</span></b><br>'+
-        'Total Votes Cast in LA County: <span style="color:#800000";><b>'+la.features[la.features.length-1].properties["Total Votes"]+'</span></b><br>'+
-        'Percent of Registered Voters Casting Ballots: <span style="color:#800000";><b>'+la.features[la.features.length-1].properties["Percent Votes Cast"]+'</span></b><br>'+
-        '<hr>'+
+        '<span class="alignleft";>Total Registered Voters:</span><span style="color:#800000" class="alignright";><b>'+la.features[la.features.length-1].properties["Number of Active Voters"]+'</span></b><br>'+
+        '<span class="alignleft";>Total Votes Cast:</span><span style="color:#800000" class="alignright";><b>'+la.features[la.features.length-1].properties["Total Votes"]+'</span></b><br>'+
+        '<span class="alignleft";>Percent of Registered Voters Casting Ballots: </span><span style="color:#800000" class="alignright";><b>'+la.features[la.features.length-1].properties["Percent Votes Cast"]+'</span></b><br>'+
+        '<span class="alignleft";>Percent of All Ballots Cast by Mail: </span><span style="color:#800000" class="alignright";><b>'+la.features[la.features.length-1].properties["Percent Mail"]+'</span></b><br>'+
+        '<span class="alignleft";>Percent of All Ballots Cast by Drop Box: &nbsp;</span><span style="color:#800000" class="alignright";><b>'+la.features[la.features.length-1].properties["Percent Drop Box"]+'</span></b><br>'+
+        '<span class="alignleft";>Percent of All Ballots Cast In-Person: </span><span style="color:#800000" class="alignright";><b>'+la.features[la.features.length-1].properties["Percent Poll"]+'</span></b><br>'+
+        '<br><hr>'+
         '<h5>LA Precinct Ballot Data</h5>' + 
       (
         props ?
-        'Precinct: '+'<span style="color:#004080";><b>'+props.precinct+'</b></span>'+ 
-        '<br>Total Registered Voters: <span style="color:#004080";><b>'+props["Number of Active Voters"]+'</span></b>'+
-        '<br>Total Votes Cast: <span style="color:#004080";><b>'+props["Total Votes"]+'</span></b>'+
-        '<br>Percent of Registered Voters Casting Ballots: <span style="color:#004080";><b>'+props['Percent Votes Cast']+'</span></b>'+
-        '<br>Percent of All Ballots Cast by Mail: <span style="color:#004080";><b>'+props["Percent Mail"]+'</span></b>'+
-        '<br>Percent of All Ballots Cast by Drop Box: <span style="color:#004080";><b>'+props["Percent Drop Box"]+'</span></b>'+
-        '<br>Percent of All Ballots Cast In-Person: <span style="color:#004080";><b>'+props["Percent Poll"]+'</span></b>'
+        '<span class="alignleft";>Precinct: </span><span style="color:#004080" class="alignright";><b>'+props.precinct+'</b></span>'+ 
+        '<br><span class="alignleft";>Total Registered Voters: </span><span style="color:#004080" class="alignright";><b>'+props["Number of Active Voters"]+'</span></b>'+
+        '<br><span class="alignleft";>Total Votes Cast: </span><span style="color:#004080" class="alignright";><b>'+props["Total Votes"]+'</span></b>'+
+        '<br><span class="alignleft";>Percent of Registered Voters Casting Ballots: </span><span style="color:#004080" class="alignright";><b>'+props['Percent Votes Cast']+'</span></b>'+
+        '<br><span class="alignleft";>Percent of All Ballots Cast by Mail: </span><span style="color:#004080" class="alignright";><b>'+props["Percent Mail"]+'</span></b>'+
+        '<br><span class="alignleft";>Percent of All Ballots Cast by Drop Box: </span><span style="color:#004080" class="alignright";><b>'+props["Percent Drop Box"]+'</span></b>'+
+        '<br><span class="alignleft";>Percent of All Ballots Cast In-Person: </span><span style="color:#004080" class="alignright";><b>'+props["Percent Poll"]+'</span></b>'
         : 'Hover over a precinct to view data'
         );
 };
@@ -262,7 +328,7 @@ info.addTo(map);
   
   <div id='infobox' class='infobox'
    style='position: absolute; z-index:9999; border:2px solid grey; width: 500px; background-color:rgba(255, 255, 255, 0.8);
-  border-radius:6px; padding: 3px; font-size:14px; right: 15px; bottom: 20px;'
+  border-radius:6px; padding: 3px; font-size:12px; right: 13px; bottom: 20px;'
   >
        
   <div>
@@ -277,7 +343,7 @@ info.addTo(map);
    
   <div id='maplegend' class='maplegend' 
       style='position: absolute; z-index:9999; border:2px solid grey; background-color:rgba(255, 255, 255, 0.8);
-       border-radius:6px; padding: 2px; font-size:14px; right: 15px; bottom: 125px;'>
+       border-radius:6px; padding: 2px; font-size:14px; right: 13px; bottom: 125px;'>
        
   <div class='legend-title'>Percent of Registered<br>Voters Casting Ballots</div>
   <div class='legend-scale'>
@@ -302,13 +368,13 @@ info.addTo(map);
   
   <div id='maplegend' class='maplegend' 
       style='position: absolute; z-index:9999; border:2px solid grey; background-color:rgba(255, 255, 255, 0.8);
-       border-radius:6px; padding-top: 0px; padding-bottom:1px; padding-right:10px; padding-left:10px; font-size:14px; 
-       top: 20px; left: 20px;'>
+       border-radius:6px; padding-top: 0px; padding-bottom:1px; padding-right:8px; padding-left:10px; font-size:14px; 
+       top: 13px; left: 13px;'>
        
   <div class='legend-title'> 
       <h3 align="center" style="font-size:20px"><b>Los Angeles County Early Ballot<br>Count by Precinct and Vote Center</b></h3>
       <h4 align="center" style="font-size:15px"><b>2020 General Election</b></h4>
-      <h5 align="center"style="font-size:12px">Last Updated: 9:30 am on 10/27/2020</h5> 
+      <h5 align="center"style="font-size:12px">Last Updated: 8:00 am on 10/29/2020</h5> 
   </div>
   </div>
 
