@@ -5,7 +5,7 @@ body {
 }
 html, body, #map {
     height: 100%;
-    width: 100%;
+    width: 100vw;
 }
 
 /* info box */
@@ -242,3 +242,25 @@ hr {
     margin-bottom: 10px;
 }
 
+.legend_choro {
+    padding: 6px 8px;
+    width: auto;
+    height: auto;
+    color: 'black';
+    font: 12px/14px Helvetica, serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    border: 2px solid #999;
+    line-height: 15pt;
+    margin-top: 2px;
+}
+.legend_choro i {
+    border: 1px solid black;
+    width: 24px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
