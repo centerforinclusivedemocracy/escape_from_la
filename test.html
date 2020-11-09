@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Layers Control Example</title>
+	<!-- <script src="http://www.chartjs.org/assets/Chart.js"></script> -->
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="Chart.js"></script>
+
+    <script type="text/javascript" src="la_precincts.geojson"></script>
+    <script type="text/javascript" src="data.geojson"></script>
+
+
+	<style>
+		#map {
+			width: 100%;
+			height: 760px;
+			align: center;
+		}
+
+		.info {
+			padding: 16px 10px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: 'white';
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+		button {
+  	position:absolute;
+  	top:410px;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+
+	<script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script type="text/javascript">
+    
+//     var data1 = {
+//     labels: ["January", "February", "March", "April", "May", "June", "July"],
+//     datasets: [
+//       {
+//         label: "My First dataset",
+//         fillColor: "rgba(220,220,220,0.2)",
+//         strokeColor: "rgba(220,220,220,1)",
+//         pointColor: "rgba(220,220,220,1)",
+//         pointStrokeColor: "#fff",
+//         pointHighlightFill: "#fff",
+//         pointHighlightStroke: "rgba(220,220,220,1)",
+//         data: [65, 59, 80, 81, 56, 55, 40]
+//       },
+//       {
+//         label: "My Second dataset",
+//         fillColor: "rgba(151,187,205,0.2)",
+//         strokeColor: "rgba(151,187,205,1)",
+//         pointColor: "rgba(151,187,205,1)",
+//         pointStrokeColor: "#fff",
+//         pointHighlightFill: "#fff",
+//         pointHighlightStroke: "rgba(151,187,205,1)",
+//         data: [28, 48, 40, 19, 86, 27, 90]
+//       }
+//     ]
+//   };
+    
+    var newChart = function(labels, data) {
+        var dataLength = labels ? labels.length : 0;
+        console.log
+        console.log('we\'re in newChart', labels, data);
+        var backgroundColors = ['rgba(235,127,134, 0.9)',
+                                'rgba(206,102,147, 0.9)',
+                                'rgba(129,55,83, 0.9)',
+                                'rgba(211,156,131, 0.9)',
+                                'rgba(153, 102, 255, 0.9)',
+                                'rgba(255, 159, 64, 0.9)'];
+        var colors = [];
+        for (var i = 0; i < dataLength; i++) {
+            colors.push(backgroundColors[i]);
+        };
+        console.log('newChart colors', colors);
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Number of Votes',
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+    };
+
+    var map = L.map(
+            "map",
+            {
+                center: [34.0, -118.3],
+                crs: L.CRS.EPSG3857,
+                zoom: 9,
+                zoomControl: false,
+                preferCanvas: true,
+            }
+        );
+        L.control.scale().addTo(map);
+        L.control.zoom({position: 'topright'}).addTo(map);
+        var tile_layer = L.tileLayer(
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 7, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+                ).addTo(map);
+
+		var info = L.control();
+
+		info.onAdd = function(map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+        
+		// info.update = function(props) {
+        //     if (props) {
+        //         if (props.party == 'Democratic') {
+        //             var labels = ['Hillary Clinton', 'Bernie Sanders'];
+        //             var data = [props.clinton_1746_president, props.sanders_1445_president];
+        //             console.log('labels', labels, 'data', data);
+        //             var dems = '<h4>US Primary Election Data 2016</h4>' +  '<br />' + (props ? props.name + ' County' + '<br />' + '<br />' + '<b>Democratic Party Winner: ' + props.d_winner + '</b><br />'+ 'Margin of Victory (%): ' + props.d_margin_pc:'mehak');
+        //             dems += '<canvas id="myChart" width="10" height="10"></canvas>';
+        //             this._div.innerHTML = dems;
+        //             newChart(labels, data);
+        //         } else {
+        //             var labels = ['Trump', 'Cruz','Kasich','Rubio'];
+        //             var data = [props.trump_8639_president, props.cruz_61815_president, props.kasich_36679_president, props.rubio_53044_president];
+        //             var reps = '<h4>US Primary Election Data 2016</h4>' +  '<br />' + (props ? props.name + ' County' + '<br />' + '<br />' + '<b>Republican Party Winner: ' + props.r_winner + '</b><br />'+ 'Margin of Victory (%): ' + props.r_margin_pc:'andy');
+        //             reps += '<canvas id="myChart" width="10" height="10"></canvas>';
+        //             this._div.innerHTML = reps;
+        //             newChart(labels, data);
+        //         }
+        //     }
+        
+        info.update = function(props) {
+                if (props) {
+                    var labels = [props.data1];
+                    var data = [props.data1];
+                    console.log('labels', labels, 'data', data);
+                    var dems = '<h4>Precint Ballots Cast</h4>' +  '<br />' + (props ? props.precinct + ' Precinct' + '<br />' + '<br />' + '<b>Percent Votes Cast: ' + props["Percent Votes Cast"] + '</b><br />'+ 'Percent Mail (%): ' + props["Percent Mail"]:'Hover over a Precinct');
+                    dems += '<canvas id="myChart" width="10" height="10"></canvas>';
+                    this._div.innerHTML = dems;
+                    newChart(labels, data);
+            }
+
+                console.log('props:', props);
+		};
+
+		info.addTo(map);
+
+		function getColor(b) {
+			return b <= 0.0 & b> -0.25 ? '#85c4c9' :
+                   b <= -0.25 & b > -0.5 ? '#4f90a6':
+                   b <= -0.5 & b> -0.75 ? '#3b738f':
+                   b <= -0.75 & b>= -1.0 ? '#2a5674':
+			       b > 0.0 & b <= 0.25 ? '#facba6' :
+                   b > 0.25 & b <= 0.5 ? '#f8b58b':
+                   b > 0.5 & b <= 0.75 ? '#f2855d':
+                   b > 0.75 & b <= 1.0 ? '#eb4a40':
+			    			'grey' ;
+		}
+
+		function style_1(feature){
+			return{
+				weight: 1,
+				opacity: 1,
+				color: 'white',
+			};
+		}
+
+		function style(feature) {
+			return {
+				weight: 0.6,
+				opacity: 0.4,
+				color: 'white',
+				fillOpacity: 0.8,
+				fillColor: getColor(feature.properties["Total Votes"])
+			};
+		}
+
+
+		function highlightFeature(e) {
+			console.log('highlightFeature was entered');
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 1.5,
+				color: 'black',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+
+			info.update(layer.feature.properties);
+		}
+
+		// var geojson;
+
+		function resetHighlight(e) {
+			geojson.resetStyle(e.target);
+			info.update();
+		}
+
+		function onEachFeature(feature, layer) {
+			console.log('onEachFeature was entered');
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight
+			});
+        }
+        
+        var geojson = L.geoJson(features, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(map);
+
+        $(document).ready(function () {    
+            $.getJSON('la_precincts.geojson', function (data) {
+                var items = [];
+                $.each(data.features, function (key, val) {
+                    $.each(val.properties, function(i,j){
+                        items.push('<li id="' + i + '">' + j + '</li>');
+                    })              
+                });
+                $('<ul/>', {
+                    'class':'my-new-list',
+                    html:items.join('')
+                }).appendTo('body');
+            });
+        });
+
+		// $.getJSON ("https://mehak-carto.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20finalest%20&format=geojson&filename=finalest", function(data) {
+		// 	console.log('geojson retrieved');
+		// 	geojson = L.geoJson(data, {
+		// 		style: style,
+		// 		onEachFeature: onEachFeature
+		// 	}).addTo(map);
+		// });
+
+	</script>
+</body>
+</html>

@@ -1,15 +1,53 @@
+#map {
+    width: 100%;
+    height: 760px;
+    align: center;
+}
+
+.info {
+    padding: 16px 10px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: 'white';
+}
+
+.legend {
+    text-align: left;
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+button {
+position:absolute;
+top:410px;
+}
+
+
+
 /* map */
-body {
+/* body {
     padding: 0;
     margin: 0;
 }
 html, body, #map {
     height: 100%;
     width: 100vw;
-}
+} */
 
 /* info box */
-.info {
+/* .info {
     padding: 6px 8px;
     position: absolute;
     top: 130px;
@@ -39,11 +77,11 @@ html, body, #map {
     font-weight: bold;
     color: rgb(0, 0, 0);
     font-size: 15px;
-}
+} */
 
 /* legend */
 
-.maplegend .legend-title {
+/* .maplegend .legend-title {
     font: Helvetica, serif;
     text-align: left;
     margin-bottom: 5px;
@@ -51,9 +89,9 @@ html, body, #map {
     font-size: 90%;
     }
   .maplegend .legend-scale ul {
-    margin: 0;
+    margin: 0; */
     /* margin-bottom: 5px; */
-    padding: 0;
+    /* padding: 0;
     float: left;
     list-style: none;
     }
@@ -61,9 +99,9 @@ html, body, #map {
     font-size: 80%;
     list-style: none;
     margin-left: 0;
-    line-height: 18px;
+    line-height: 18px; */
     /* margin-bottom: 2px; */
-    }
+    /* }
   .maplegend ul.legend-labels li span {
     display: block;
     float: left;
@@ -80,11 +118,11 @@ html, body, #map {
     }
   .maplegend a {
     color: #777;
-    }
+    } */
 
 /* horizonal line break */
 
-hr { 
+/* hr { 
     color:#777;
     display: block;
     padding: 0 !important;
@@ -92,11 +130,11 @@ hr {
     border-style: inset;
     border-width: 1px;
 
-} 
+}  */
 
 /* VC icons */
 
- .marker-pin {
+ /* .marker-pin {
     width: 30px;
     height: 30px;
     border-radius: 50% 50% 50% 0;
@@ -117,9 +155,9 @@ hr {
     left: 50%;
     top: 50%;
     margin: -15px 0 0 -15px;
-  }
+  } */
   /* // to draw white circle */
-  .marker-pin::after {
+  /* .marker-pin::after {
       content: '';
       width: 24px;
       height: 24px;
@@ -139,9 +177,9 @@ hr {
     position: absolute;
     border-radius: 50%;
     opacity: .5;
- }
+ } */
   /* // to align icon */
-  .five i {
+  /* .five i {
      position: absolute;
      width: 22px;
      font-size: 18px;
@@ -154,9 +192,9 @@ hr {
  .five i.awesome {
     margin: 12px auto;
     font-size: 17px;
- }
+ } */
    /* // to align icon */
-.eleven i {
+/* .eleven i {
     position: absolute;
     width: 22px;
     font-size: 18px;
@@ -220,7 +258,7 @@ hr {
 .legend2 .awesome {
 	size: 14 !important;
 
-}
+} */
 /* Keep this for the future */
 
 /* .leaflet-verticalcenter {
@@ -238,7 +276,7 @@ hr {
     margin-bottom: 10px;
 } */
 
-.legend_choro {
+/* .legend_choro {
     padding: 6px 8px;
     width: auto;
     height: auto;
@@ -259,6 +297,6 @@ hr {
     float: left;
     margin-right: 8px;
     opacity: .7;
-}
+} */
 
 
