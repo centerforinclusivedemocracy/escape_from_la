@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>sidebar-v2 example</title>
+<!DOCTYPE html> 
+<html> 
+<!-- Define Head section, with links and scripts for use in Body -->
+<head> 
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-
+      
 <!-- Get the leaflet CSS/JS sources -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -38,131 +38,194 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
 <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 
-<!-- Load d3 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
+<link rel="stylesheet" href="files/leaflet-control-zoombar.css" />
+<script src="files/leaflet-control-zoombar.js"></script>
+<script src="files/sitewide.js"></script>
+<link rel="stylesheet" href="files/leaflet-control-basemapbar.css" />
+<script src="files/leaflet-control-basemapbar.js"></script>
+<!-- <script src="files/index.js"></script> -->
+<!-- <script src="files/county.js"></script> -->
+<script src="files/leaflet-control-legend-statewidemap.js"></script>
+</head> 
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
-
-<script data-require="highcharts@4.1.7" data-semver="4.1.7" src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.7/highcharts.js"></script>
-
-
-    <link rel="stylesheet" href="leaflet-sidebar.css" />
-
-    <style>
-        body {
-            padding: 0;
-            margin: 0;
-        }
-
-        html, body, #map {
-            height: 100%;
-            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
-        }
-
-        .lorem {
-            font-style: italic;
-            color: #AAA;
-        }
-    </style>
-</head>
 <body>
-    <div id="sidebar" class="sidebar collapsed">
-        <!-- Nav tabs -->
-        <div class="sidebar-tabs">
-            <ul role="tablist">
-                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
-                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-                <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
-                <li><a href="https://github.com/centerforinclusivedemocracy" role="tab" target="_blank"><i class="fa fa-github"></i></a></li>
-            </ul>
 
-            <ul role="tablist">
-                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
-            </ul>
+<!-- CID loading screen for webpage -->
+<div id="loading" style="text-align:center;">
+    <img id="loading-image" src="CID.png" alt="Loading..." style="text-align:center;"/>
+    <h3 style="text-align:center;">Loading approximately 250,000 precinct polygons for Los Angeles County... please allow several seconds to load.</h3>
+    <div class="spinner-border slow text-danger" style="width: 13rem; height: 13rem;" role="status">
+        <span class="sr-only">Loading...</span>
         </div>
-
-        <!-- Tab panes -->
-        <div class="sidebar-content">
-            <div class="sidebar-pane" id="home">
-                <h1 class="sidebar-header">
-                    sidebar-v2
-                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-                </h1>
-
-                <p>A responsive sidebar for mapping libraries like <a href="http://leafletjs.com/">Leaflet</a> or <a href="http://openlayers.org/">OpenLayers</a>.</p>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-            </div>
-
-            <div class="sidebar-pane" id="profile">
-                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-
-                <p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-            </div>
-
-            <div class="sidebar-pane" id="messages">
-                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-            </div>
-
-            <div class="sidebar-pane" id="settings">
-                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-            </div>
-        </div>
+    <div class="spinner-border slow text-dark" style="width: 13rem; height: 13rem;" role="status">
+    <span class="sr-only">Loading...</span>
     </div>
+    <div class="spinner-border slow text-warning" style="width: 13rem; height: 13rem;" role="status">
+    <span class="sr-only">Loading...</span>
+    </div>
+</div> 
 
-    <div id="map" class="sidebar-map"></div>
+<!-- jQuery to close CID loading screen when page has loaded -->
+<script>
+    $(window).load(function() {
+        $('#loading').hide();
+    });
+</script> 
 
-    <a href="https://github.com/centerforinclusivedemocracy/"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+<!-- Specify the map and it's dimensions -->
+<div id="map"></div>
 
-    <script type="text/javascript" src="la_precincts.geojson"></script>
+<!-- Load the precint/vote center GeoJSONs and enable JS code below  -->
+<script type="text/javascript" src="la_precincts.geojson"></script>
+<script type="text/javascript" src="vote_centers.geojson"></script>
+<script type="text/javascript"> 
 
-    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-    <script src="leaflet-sidebar.js"></script>
+$(document).ready(function () {
+    initStatewideMap();
+});
 
-    <script>
+let MAP;
 
-var map = L.map(
-            "map",
-            {
-                center: [34.0, -118.3],
-                crs: L.CRS.EPSG3857,
-                zoom: 9,
-                zoomControl: false,
-                preferCanvas: true,
+function initStatewideMap () {
+    // the map, a fixed basemap, a labels overlay, and our special map controls
+    // note the ZoomBar which we add after we have GeoJSON data and therefore a home extent
+
+MAP = L.map('map', {
+    zoomControl: false,
+    maxZoom: 18,
+    minZoom: 6,
+});
+
+L.control.scale({
+    position: 'bottomleft',
+    updateWhenIdle: true
+})
+.addTo(MAP);
+
+MAP.BASEMAPBAR = new L.Control.BasemapBar({
+    position: 'topright',
+    layers: BASEMAP_OPTIONS,
+})
+.addTo(MAP)
+.selectLayer(BASEMAP_OPTIONS[0].label);
+
+$.get('files/counties.js', function (data) {
+    MAP.COUNTYOVERLAY = L.geoJson(data, {
+        style: function (feature) {
+            let countyinfo;
+            try {
+                countyinfo = getParticipatingCountyInfo(feature.properties.countyfp);
+            } catch (error) {}  // catch = leave undefined, it's OK
+
+            if (! countyinfo) return BOUNDSTYLE_DEFAULT;  // not participating, default style
+
+            switch (countyinfo.profile) {
+                case 'fullmodelGIN':
+                case 'fullmodelCID':
+                case 'fullmodelTEMP':
+                case 'fullexceptsuggested':
+                    return BOUNDSTYLE_FULL;
+                case 'lite':
+                    return BOUNDSTYLE_LITE;
+                default:
+                    console.error(`County ${countyinfo.countyfp} has unknown profile '${countyinfo.profile}' for styling map`);
+                    return BOUNDSTYLE_DEFAULT;  // not known, so punt with this and the error message
             }
-        );
-L.control.scale().addTo(map);
-L.control.zoom({position: 'topright'}).addTo(map);
-var tile_layer = L.tileLayer(
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 7, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-        ).addTo(map);
+        },
+        onEachFeature: function (feature, layer) {
+            // tooltip = the county name and invitation to click
+            let countyinfo;
+            try {
+                countyinfo = getParticipatingCountyInfo(feature.properties.countyfp);
+            } catch (error) {}  // catch = leave undefined, it's OK
 
 
-// Legend color pallette and function
-function getColor(d) {
-    return d > 90 ? '#081d58' :
-        d > 80  ? '#253494' :
-        d > 70  ? '#225ea8' :
-        d > 60  ? '#1d91c0' :
-        d > 50  ? '#41b6c4' :
-        d > 40  ? '#7fcdbb' :
-        d > 30   ? '#c7e9b4' :
-        d > 20   ? '#edf8b1' :
-        d > 10   ? '#ffffd9' :
-                    '#C4CACF';
-    }
+            let message = 'Not analyzed';
+            if (countyinfo) {
+                switch (countyinfo.profile) {
+                    case 'fullmodel':
+                    case 'fullmodelGIN':
+                    case 'fullexceptsuggested':
+                        message = 'Suggested Voting Centers';
+                        break;
+                    case 'fullmodelCID':
+                    case 'fullmodelTEMP':
+                        message = 'Suggested Voting Locations';
+                        break;
+                    case 'lite':
+                        message = 'Community-Level Demographic and Voter Data';
+                        break;
+                    default:
+                        console.error(`County ${countyinfo.countyfp} has unknown profile '${countyinfo.profile}' for creating tooltip`);
+                        message = 'Unknown status';
+                        break;
+                }
+            }
+
+            const popupcontent = `<h1>${feature.properties.name}</h1>${message}`;
+
+            layer.bindTooltip(popupcontent, { sticky: true });
+
+            // click = go to the page
+            if (countyinfo) {
+                const url = `county.html?county=${feature.properties.countyfp}`;
+                layer.on('click', function () { document.location.href = url; });
+            }
+        },
+    })
+    .addTo(MAP);
+
+    const bbox = MAP.COUNTYOVERLAY.getBounds();
+    MAP.fitBounds(bbox);
+
+    // now that we have a home bounds, add the zoom+home control then the geocoder control under it (they are positioned in sequence)
+    MAP.ZOOMBAR = new L.Control.ZoomBar({
+        position: 'topright',
+        homeBounds: bbox,
+    }).addTo(MAP);
+
+    // MAP.GEOCODER = L.Control.geocoder({
+    //     position: 'topright',
+    //     showUniqueResult: false,
+    //     defaultMarkGeocode: false,
+    //     placeholder: 'Search for address or place',
+    //     collapsed: true,  // control is buggy if expanded, won't close results list
+    // })
+    // .on('markgeocode', function (event) {
+    //     MAP.fitBounds(event.geocode.bbox);
+    // })
+    // .addTo(MAP);
+}, 'json');
+}
+
+// Call the Leaflet JS functions
+// var MAP = L.map(
+//             "map",
+//             {
+//                 center: [34.0, -118.3],
+//                 crs: L.CRS.EPSG3857,
+//                 zoom: 12,
+//                 zoomControl: false,
+//                 preferCanvas: true,
+//             }
+//         );
+// L.control.scale().addTo(MAP);
+// var tile_layer = L.tileLayer(
+//             "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+//             {"attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 7, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+//         ).addTo(MAP);
+
+
+
+// Create precint polygons
+// var polygons = L.geoJson(la, {
+//     style: style,
+//     onEachFeature: onEachFeature
+// }).addTo(map);
 
 function style(feature) {
     return {
-        fillColor: getColor(feature.properties.pctvote),
+        // fillColor: getColor(feature.properties.pctvote),
         weight: 1,
         opacity: .25,
         color: '#4a4c4f',
@@ -184,11 +247,10 @@ function highlightFeature(e) {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
-
 }
 
 function resetHighlight(e) {
-    polygons.resetStyle(e.target);
+    map.COUNTYOVERLAY.resetStyle(e.target);
 }
 
 function zoomToFeature(e) {
@@ -203,106 +265,6 @@ function onEachFeature(feature, layer) {
     });
 }
 
-function chart(d) {
-  var feature = d.feature;
-  var data = feature.properties.data;
-  
-  var width = 300;
-  var height = 80;
-  var margin = {left:20,right:15,top:40,bottom:40};
-  var parse = d3.timeParse("%m");
-  var format = d3.timeFormat("%b");
-   
-  var div = d3.create("div")
-  var svg = div.append("svg")
-    .attr("width", width+margin.left+margin.right)
-    .attr("height", height+margin.top+margin.bottom);
-  var g = svg.append("g")
-    .attr("transform","translate("+[margin.left,margin.top]+")");
-    
-  var y = d3.scaleLinear()
-    .domain([0, d3.max(data, function(d) { return d; }) ])
-    .range([height,0]);
-    
-  var yAxis = d3.axisLeft()
-    .ticks(4)
-    .scale(y);
-  g.append("g").call(yAxis);
-    
-  var x = d3.scaleBand()
-    .domain(d3.range(12))
-    .range([0,width]);
-    
-  var xAxis = d3.axisBottom()
-    .scale(x)
-    .tickFormat(function(d) { return format(parse(d+1)); });
-    
-  g.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-      .selectAll("text")
-      .attr("text-anchor","end")
-      .attr("transform","rotate(-90)translate(-12,-15)")
-    
-  var rects = g.selectAll("rect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("y",height)
-    .attr("height",0)
-    .attr("width", x.bandwidth()-2 )
-    .attr("x", function(d,i) { return x(i); })
-    .attr("fill","steelblue")
-    .transition()
-    .attr("height", function(d) { return height-y(d); })
-    .attr("y", function(d) { return y(d); })
-    .duration(1000);
-    
-  var title = svg.append("text")
-    .style("font-size", "20px")
-    .text(feature.properties.title)
-    .attr("x", width/2 + margin.left)
-    .attr("y", 30)
-    .attr("text-anchor","middle");
-    
-  return div.node();
-    
-}   
-
-var popup = L.popup().setContent('<p style="font-size:130%;"><b>Some Name</b></p><div id="container" style="min-width: 300px; height: 200px; margin: 0 auto">Loading...</div>');
-
-    L.circle([34.0, -118.3], 500, {
-      color: 'red',
-      fillColor: '#f03',
-      fillOpacity: 0.5
-    }).addTo(map).bindPopup(popup);
-    
-    
-    map.on('popupopen', function(e) {
-      $.ajax({
-          type: "GET",
-          url: "la_precincts.geojson"
-        })
-        .done(function(data) {
-          $('#container').highcharts({
-            chart: {height: 175, width: 295},
-            title: {text: ''},
-            series: data
-          });
-        });
-    });
-    
-    map.on('popupclose', function(e){
-      $('#container').html("Loading...");
-    });
-
-// Create precint polygons
-var polygons = L.geoJson(la, {
-    style: style,
-    onEachFeature: onEachFeature
-}).addTo(map).bindPopup(chart);
-
-var sidebar = L.control.sidebar('sidebar').addTo(map);
-    </script>
-</body>
-</html>
+</script>
+</body> 
+</html> 
